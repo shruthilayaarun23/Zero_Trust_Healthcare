@@ -1,1 +1,0 @@
-# Zero_Trust_Healthcare
