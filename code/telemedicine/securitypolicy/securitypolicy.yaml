@@ -1,0 +1,62 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-istio-ingress
+  namespace: telemedicinebff
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+    to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/combined_data/*"]
+---
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: allow-telemedicineapptobff-actions
+      namespace: telemedicinebff
+    spec:
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+            principals: ["cluster.local/ns/telemedicineapp/sa/default"]
+        to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/combined_data/*"]
+---
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: dw-postgres
+      namespace: dose-watch
+    spec:
+      selector:
+        matchLabels:
+          app: dw-postgresdb
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            ports: ["5432"]
+---
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: pd-postgres
+      namespace: patient-details
+    spec:
+      selector:
+        matchLabels:
+          app: pd-postgresdb
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            ports: ["5432"]
+

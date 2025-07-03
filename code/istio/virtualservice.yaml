@@ -1,0 +1,45 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: telemedicine
+  namespace: <PROJECT>
+spec:
+  hosts:
+  - "127.0.0.1.sslip.io"
+  gateways:
+  - telemedicine
+  http:
+  - match:
+    - uri:
+        prefix: /dose-watch
+    route:
+    - destination:
+        host: dose-watch
+        port:
+          number: 5001
+  - match:
+    - uri:
+        prefix: /patient-database
+    route:
+    - destination:
+        host: patient-database
+        port:
+          number: 5001
+  - match:
+    - uri:
+        prefix: /orthanc
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: orthanc
+        port:
+          number: 8042     
+  - match:
+    - uri:
+        prefix: /patient_imaging
+    route:
+    - destination:
+        host: patient-imaging
+        port:
+          number: 5000 

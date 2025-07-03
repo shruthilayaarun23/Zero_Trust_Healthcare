@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: dose-watch
+  namespace: <PROJECT>  
+spec:
+  host: dose-watch
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: patient-database
+  namespace: <PROJECT> 
+spec:
+  host: patient-database
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: orthanc
+  namespace: <PROJECT>
+spec:
+  host: orthanc
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: patient-imaging
+  namespace: <PROJECT>
+spec:
+  host: patient-imaging
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

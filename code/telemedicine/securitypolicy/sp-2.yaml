@@ -1,0 +1,31 @@
+---
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: allow-telemedicineapptobff-actions
+      namespace: telemedicinebff
+    spec:
+      action: DENY
+      rules:
+      - from:
+        - source:
+            principals: ["cluster.local/ns/telemedicineapp/sa/default"]
+        to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/combined_data/*"]
+---
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: dw-postgres
+      namespace: dose-watch
+    spec:
+      selector:
+        matchLabels:
+          app: dw-postgresdb
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            ports: ["5433"]
